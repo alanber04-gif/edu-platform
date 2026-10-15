@@ -9,8 +9,8 @@ const cairo = Cairo({
 });
 
 export const metadata: Metadata = {
-  title: "منصة التعلم | EduPlatform",
-  description: "منصة تعليمية احترافية متكاملة",
+  title: "منصة سهم",
+  description: "منصة سهم التعليمية — تعلّم وتقدّم بثقة",
 };
 
 export default function RootLayout({
