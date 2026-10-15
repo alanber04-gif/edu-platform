@@ -108,7 +108,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </div>
       </section>
 
-      <section className="rounded-2xl border bg-card p-5 sm:p-7">
+      {isOwner && <section className="rounded-2xl border bg-card p-5 sm:p-7">
         <h2 className="text-xl font-extrabold">منح صلاحية المشرف</h2>
         <p className="mt-1 text-sm leading-6 text-muted-foreground">أدخل معرّف المستخدم (User ID) من Supabase Auth. المشرف يستطيع إدارة الدروس والفيديوهات، ولا يحصل على ملكية المنصة.</p>
         <form action={grantModerator} className="mt-4 flex flex-col gap-3 sm:flex-row">
@@ -125,7 +125,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </form>
           )) : <p className="text-sm text-muted-foreground">لا يوجد مشرفون، أو لم يُطبّق إعداد قاعدة البيانات بعد.</p>}
         </div>
-      </section>
+      </section>}
 
       {isOwner && <section className="space-y-4">
         <div className="flex items-center gap-3"><BookOpen className="text-primary" size={22} /><h2 className="text-xl font-extrabold">الدورات الحالية ({courses?.length ?? 0})</h2></div>
