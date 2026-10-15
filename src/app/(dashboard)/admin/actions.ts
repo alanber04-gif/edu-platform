@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { requireOwner } from '@/lib/owner';
+import { requireOwner, requirePlatformStaff } from '@/lib/owner';
 
 export async function createCourse(formData: FormData) {
   const { supabase, user } = await requireOwner();
@@ -63,7 +63,7 @@ export async function deleteCourse(formData: FormData) {
 
 
 export async function createModule(formData: FormData) {
-  const { supabase } = await requireOwner();
+  const { supabase } = await requirePlatformStaff();
   const courseId = String(formData.get('course_id') || '').trim();
   const title = String(formData.get('title') || '').trim();
   if (!courseId || !title) redirect('/admin?error=module');
@@ -87,7 +87,7 @@ export async function createModule(formData: FormData) {
 }
 
 export async function createLesson(formData: FormData) {
-  const { supabase } = await requireOwner();
+  const { supabase } = await requirePlatformStaff();
   const courseId = String(formData.get('course_id') || '').trim();
   const moduleId = String(formData.get('module_id') || '').trim();
   const title = String(formData.get('title') || '').trim();
@@ -119,7 +119,7 @@ export async function createLesson(formData: FormData) {
 }
 
 export async function updateLessonVideo(formData: FormData) {
-  const { supabase } = await requireOwner();
+  const { supabase } = await requirePlatformStaff();
   const courseId = String(formData.get('course_id') || '').trim();
   const lessonId = String(formData.get('lesson_id') || '').trim();
   const videoUrl = String(formData.get('video_url') || '').trim();
