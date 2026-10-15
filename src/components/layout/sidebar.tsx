@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, BookOpen, Library, Settings, GraduationCap, Search, Sparkles } from 'lucide-react';
+import { Home, BookOpen, Library, Settings, GraduationCap, Search, Sparkles, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -13,8 +13,9 @@ const navItems = [
   { href: '/settings', label: 'الإعدادات', icon: Settings },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOwner = false }: { isOwner?: boolean }) {
   const pathname = usePathname();
+  const items = isOwner ? [...navItems, { href: '/admin', label: 'إدارة المنصة', icon: ShieldCheck }] : navItems;
 
   return (
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-l border-border/80 bg-card/95 backdrop-blur md:flex">
@@ -24,7 +25,7 @@ export default function Sidebar() {
       </Link>
       <div className="px-4 pt-7"><p className="mb-3 px-3 text-[11px] font-extrabold tracking-widest text-muted-foreground">القائمة الرئيسية</p>
         <nav className="space-y-1.5">
-          {navItems.map((item) => {
+          {items.map((item) => {
             const Icon = item.icon;
             const active = pathname === item.href || pathname.startsWith(item.href + '/');
             return <Link key={item.href} href={item.href} aria-current={active ? 'page' : undefined} className={cn('group flex items-center gap-3 rounded-xl px-3.5 py-3 text-sm font-semibold transition-all', active ? 'bg-primary text-primary-foreground shadow-md shadow-primary/15' : 'text-muted-foreground hover:bg-muted hover:text-foreground')}><Icon size={18} className={cn('shrink-0 transition-transform group-hover:scale-105', active ? 'text-primary-foreground' : 'text-muted-foreground')} />{item.label}{active && <span className="mr-auto size-1.5 rounded-full bg-primary-foreground" />}</Link>;
