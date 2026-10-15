@@ -149,7 +149,8 @@ export async function grantModerator(formData: FormData) {
   }, { onConflict: 'user_id' });
   if (error) redirect('/admin?error=moderator');
   revalidatePath('/admin');
-  redirect('/admin?moderatorAdded=1');
+  revalidatePath('/admin/users');
+  redirect('/admin/users?moderatorAdded=1');
 }
 
 export async function revokeModerator(formData: FormData) {
@@ -159,5 +160,6 @@ export async function revokeModerator(formData: FormData) {
   const { error } = await supabase.from('platform_moderators').delete().eq('user_id', userId);
   if (error) redirect('/admin?error=moderator');
   revalidatePath('/admin');
-  redirect('/admin?moderatorRemoved=1');
+  revalidatePath('/admin/users');
+  redirect('/admin/users?moderatorRemoved=1');
 }
