@@ -11,24 +11,29 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setError(error.message);
+      if (error) {
+        setError(error.message);
+      } else {
+        router.push('/dashboard');
+        router.refresh();
+      }
+    } catch {
+      setError('تعذر الاتصال بخدمة تسجيل الدخول. تأكد من إعداد NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_ANON_KEY في إعدادات Vercel.');
+    } finally {
       setLoading(false);
-    } else {
-      router.push('/dashboard');
-      router.refresh();
     }
   }
 
@@ -67,7 +72,7 @@ export default function LoginPage() {
           </button>
         </form>
         <p className="text-center text-sm">
-          ليس لديك حساب？{' '}
+          ليس لديك حساب؟{' '}
           <Link href="/register" className="text-primary underline">
             إنشاء حساب
           </Link>
