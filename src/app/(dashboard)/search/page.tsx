@@ -23,7 +23,7 @@ export default function SearchPage() {
         .from('courses')
         .select('id, title, description, category, level')
         .eq('is_published', true)
-        .ilike('title', `%${query.trim()}%`)
+        .or(`title.ilike.%${query.trim().replace(/[,%()]/g, ' ')}%,description.ilike.%${query.trim().replace(/[,%()]/g, ' ')}%,category.ilike.%${query.trim().replace(/[,%()]/g, ' ')}%`)
         .order('created_at', { ascending: false });
       if (searchError) {
         setError('تعذر إكمال البحث. تحقق من الاتصال وحاول مجددًا.');
