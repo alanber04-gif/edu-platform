@@ -22,7 +22,7 @@ export default async function LessonPage({
   const supabase = await createClient();
   const { data: course } = await supabase
     .from('courses')
-    .select('id, title, modules(id, title, lessons(id, title, duration, content, video_url, description, order_index))')
+    .select('id, title, modules(id, title, lessons(*))')
     .eq('id', id)
     .single();
 
