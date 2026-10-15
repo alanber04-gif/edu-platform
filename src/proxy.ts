@@ -5,7 +5,11 @@ export async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
   // Search engines must be able to read these public SEO endpoints without signing in.
-  if (pathname === '/robots.txt' || pathname === '/sitemap.xml') {
+  if (
+    pathname === '/robots.txt' ||
+    pathname === '/sitemap.xml' ||
+    pathname === '/google482ad03b35f0e2d4.html'
+  ) {
     return NextResponse.next()
   }
 
