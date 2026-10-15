@@ -43,7 +43,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       {params.deleted && <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm">تم حذف الدورة.</p>}
       {(params.moduleCreated || params.lessonCreated || params.videoUpdated || params.moderatorAdded || params.moderatorRemoved) && <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm">تم حفظ التغيير بنجاح.</p>}
 
-      {isOwner && <section className="rounded-2xl border bg-card p-5 sm:p-7">
+      <section className="rounded-2xl border bg-card p-5 sm:p-7">
         <div className="mb-6 flex items-center gap-3"><PlusCircle className="text-primary" size={22} /><div><h2 className="text-xl font-extrabold">إضافة دورة جديدة</h2><p className="mt-1 text-sm text-muted-foreground">أدخل بيانات الدورة ثم انشرها أو اتركها مسودة.</p></div></div>
         <form action={createCourse} className="grid gap-5 md:grid-cols-2">
           <label className="space-y-2 text-sm font-semibold">اسم الدورة *
@@ -65,7 +65,6 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
           <div className="md:col-span-2"><button className="rounded-xl bg-primary px-6 py-3 font-bold text-primary-foreground transition hover:opacity-90">حفظ الدورة</button></div>
         </form>
       </section>
-
 
       <section className="rounded-2xl border bg-card p-5 sm:p-7">
         <h2 className="text-xl font-extrabold">إدارة الدروس والفيديوهات</h2>
@@ -127,7 +126,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </div>
       </section>}
 
-      {isOwner && <section className="space-y-4">
+      <section className="space-y-4">
         <div className="flex items-center gap-3"><BookOpen className="text-primary" size={22} /><h2 className="text-xl font-extrabold">الدورات الحالية ({courses?.length ?? 0})</h2></div>
         {coursesError ? <p className="rounded-xl border p-5 text-sm text-muted-foreground">تعذر تحميل الدورات. تحقق من إعداد قاعدة البيانات وصلاحياتها.</p> : courses && courses.length ? (
           <div className="space-y-3">{courses.map((course) => (
@@ -140,7 +139,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </article>
           ))}</div>
         ) : <div className="rounded-2xl border border-dashed p-10 text-center text-sm text-muted-foreground">لا توجد دورات في قاعدة البيانات بعد. أضف أول دورة من النموذج أعلاه.</div>}
-      </section>}
+      </section>
     </div>
   );
 }
