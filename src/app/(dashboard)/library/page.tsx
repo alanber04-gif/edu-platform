@@ -18,9 +18,8 @@ export default function LibraryPage() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
-  const supabase = createClient();
-
   const load = useCallback(async () => {
+    const supabase = createClient();
     setLoading(true);
     setError('');
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -48,13 +47,14 @@ export default function LibraryPage() {
     } else setLessons((lessonsResult.data ?? []) as unknown as LessonOption[]);
 
     setLoading(false);
-  }, [supabase]);
+  }, []);
 
   useEffect(() => { void load(); }, [load]);
 
   async function addNote(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!noteText.trim() || !selectedLesson || saving) return;
+    const supabase = createClient();
     setSaving(true);
     setError('');
     setNotice('');
