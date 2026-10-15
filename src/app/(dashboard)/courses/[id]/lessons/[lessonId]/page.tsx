@@ -37,7 +37,7 @@ export default async function LessonPage({
     (module.lessons ?? []).some((lesson) => lesson.id === lessonId)
   );
   const lesson = lessonModule?.lessons?.find((item) => item.id === lessonId);
-  if (!lesson) notFound();
+  if (!lessonModule || !lesson) notFound();
 
   const videoUrl = lesson.video_url?.trim();
   const isDirectVideo = Boolean(videoUrl && /\.(mp4|webm|ogg)(\?.*)?$/i.test(videoUrl));
