@@ -20,7 +20,7 @@ export default function Sidebar() {
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col border-l border-border/80 bg-card/95 backdrop-blur md:flex">
       <Link href="/dashboard" className="flex items-center gap-3 border-b border-border/80 px-5 py-6">
         <span className="grid size-11 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20"><GraduationCap size={24} /></span>
-        <span><span className="block text-base font-black tracking-tight">EduPlatform</span><span className="mt-0.5 block text-xs text-muted-foreground">مساحتك التعليمية</span></span>
+        <span><span className="block text-base font-black tracking-tight">منصة سهم</span><span className="mt-0.5 block text-xs text-muted-foreground">مساحتك التعليمية</span></span>
       </Link>
       <div className="px-4 pt-7"><p className="mb-3 px-3 text-[11px] font-extrabold tracking-widest text-muted-foreground">القائمة الرئيسية</p>
         <nav className="space-y-1.5">
@@ -31,7 +31,7 @@ export default function Sidebar() {
           })}
         </nav>
       </div>
-      <div className="mt-auto p-4"><div className="rounded-2xl border border-primary/10 bg-primary/5 p-4"><span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary"><Sparkles size={18} /></span><p className="mt-3 text-sm font-extrabold">خطوة جديدة كل يوم</p><p className="mt-1 text-xs leading-5 text-muted-foreground">خصص وقتًا للتعلّم وواصل التقدّم نحو أهدافك.</p></div><p className="px-1 pt-4 text-center text-[11px] text-muted-foreground">EduPlatform · التعلّم مستمر</p></div>
+      <div className="mt-auto p-4"><div className="rounded-2xl border border-primary/10 bg-primary/5 p-4"><span className="grid size-9 place-items-center rounded-xl bg-primary/10 text-primary"><Sparkles size={18} /></span><p className="mt-3 text-sm font-extrabold">خطوة جديدة كل يوم</p><p className="mt-1 text-xs leading-5 text-muted-foreground">خصص وقتًا للتعلّم وواصل التقدّم نحو أهدافك.</p></div><p className="px-1 pt-4 text-center text-[11px] text-muted-foreground">منصة سهم · التعلّم مستمر</p></div>
     </aside>
   );
 }
