@@ -1,6 +1,7 @@
 import { requirePlatformStaff } from '@/lib/owner';
 import { createCourse, deleteCourse, toggleCoursePublished, createModule, createLesson, updateLessonVideo, grantModerator, revokeModerator } from './actions';
-import { BookOpen, PlusCircle, ShieldCheck } from 'lucide-react';
+import Link from 'next/link';
+import { BookOpen, PlusCircle, ShieldCheck, Users } from 'lucide-react';
 
 type AdminPageProps = {
   searchParams: Promise<{ error?: string; created?: string; updated?: string; deleted?: string; moduleCreated?: string; lessonCreated?: string; videoUpdated?: string; moderatorAdded?: string; moderatorRemoved?: string }>;
@@ -33,7 +34,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       <header className="rounded-3xl border bg-gradient-to-l from-primary/15 via-card to-card p-6 sm:p-8">
         <div className="flex items-start gap-4">
           <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground"><ShieldCheck size={27} /></span>
-          <div><p className="text-sm font-bold text-primary">مساحة المالك</p><h1 className="mt-1 text-2xl font-black sm:text-3xl">إدارة منصة سهم</h1><p className="mt-2 text-sm leading-7 text-muted-foreground">{isOwner ? 'إدارة الدورات والصلاحيات ومحتوى الدروس.' : 'إدارة محتوى الدروس والفيديوهات.'} الحساب الحالي: {user.email}</p></div>
+          <div><p className="text-sm font-bold text-primary">مساحة المالك</p><h1 className="mt-1 text-2xl font-black sm:text-3xl">إدارة منصة سهم</h1><p className="mt-2 text-sm leading-7 text-muted-foreground">{isOwner ? 'إدارة الدورات والصلاحيات ومحتوى الدروس.' : 'إدارة محتوى الدروس والفيديوهات.'} الحساب الحالي: {user.email}</p>{isOwner && <Link href="/admin/users" className="mt-4 inline-flex items-center gap-2 rounded-xl border bg-background px-4 py-2.5 text-sm font-bold transition hover:bg-muted"><Users size={17} /> المستخدمون وصلاحيات الإشراف</Link>}</div>
         </div>
       </header>
 
