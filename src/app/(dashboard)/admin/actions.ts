@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { requireOwner } from '@/lib/owner';
 
 export async function createCourse(formData: FormData) {
-  const { supabase } = await requireOwner();
+  const { supabase, user } = await requireOwner();
   const title = String(formData.get('title') || '').trim();
   const description = String(formData.get('description') || '').trim();
   const category = String(formData.get('category') || '').trim();
@@ -17,6 +17,7 @@ export async function createCourse(formData: FormData) {
 
   const { error } = await supabase.from('courses').insert({
     title,
+    instructor_id: user.id,
     description: description || null,
     category: category || null,
     level: level || null,
