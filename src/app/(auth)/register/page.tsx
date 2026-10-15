@@ -12,34 +12,47 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          full_name: fullName,
-        },
-      },
-    });
-
-    if (error) {
-      setError(error.message);
-      setLoading(false);
-    } else if (data.user) {
-      await supabase.from('profiles').insert({
-        id: data.user.id,
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.signUp({
         email,
-        full_name: fullName,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+          },
+        },
       });
-      router.push('/dashboard');
-      router.refresh();
+
+      if (error) {
+        setError(error.message);
+      } else if (data.user) {
+        const { error: profileError } = await supabase.from('profiles').insert({
+          id: data.user.id,
+          email,
+          full_name: fullName,
+        });
+
+        if (profileError) {
+          setError('تم إنشاء الحساب، لكن تعذر حفظ بيانات الملف الشخصي.');
+          return;
+        }
+
+        router.push('/dashboard');
+        router.refresh();
+      } else {
+        setError('تعذر إنشاء الحساب. يرجى المحاولة مرة أخرى.');
+      }
+    } catch {
+      setError('تعذر الاتصال بخدمة التسجيل. تأكد من إعداد NEXT_PUBLIC_SUPABASE_URL و NEXT_PUBLIC_SUPABASE_ANON_KEY في إعدادات Vercel.');
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -89,7 +102,7 @@ export default function RegisterPage() {
           </button>
         </form>
         <p className="text-center text-sm">
-          لديك حساب بالفعل？{' '}
+          لديك حساب بالفعل؟{' '}
           <Link href="/login" className="text-primary underline">
             تسجيل الدخول
           </Link>
