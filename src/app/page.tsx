@@ -12,9 +12,9 @@ export default async function Home() {
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-8">
-        <Link href="/" className="flex items-center gap-3" aria-label="الرئيسية">
+        <Link href="/" className="flex items-center gap-3" aria-label="منصة سهم - الرئيسية">
           <span className="grid size-11 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/20"><GraduationCap size={24} /></span>
-          <span className="text-lg font-extrabold tracking-tight">Edu<span className="text-primary">Platform</span></span>
+          <span className="text-lg font-extrabold tracking-tight">منصة <span className="text-primary">سهم</span></span>
         </Link>
         <nav className="flex items-center gap-2 sm:gap-3">
           <Link href="/login" className="rounded-xl px-4 py-2.5 text-sm font-semibold text-muted-foreground transition hover:bg-muted hover:text-foreground">تسجيل الدخول</Link>
@@ -27,7 +27,7 @@ export default async function Home() {
         <div className="relative">
           <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary"><Sparkles size={16} /> تعلّم بتركيز، وتقدّم بثقة</div>
           <h1 className="max-w-2xl text-4xl font-black leading-[1.25] tracking-tight sm:text-5xl lg:text-6xl">طوّر مهاراتك،<br /><span className="text-primary">واصنع خطوتك القادمة.</span></h1>
-          <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">مساحة تعليمية تجمع الدورات والدروس ومتابعة التقدّم في تجربة واحدة واضحة، مصممة لتجعل رحلتك في التعلّم أسهل وأكثر تنظيمًا.</p>
+          <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">منصة سهم مساحة تعليمية تجمع الدورات والدروس ومتابعة التقدّم في تجربة واحدة واضحة، مصممة لتجعل رحلتك في التعلّم أسهل وأكثر تنظيمًا.</p>
           <div className="mt-9 flex flex-wrap gap-3">
             <Link href="/register" className="inline-flex items-center justify-center gap-2 rounded-2xl bg-primary px-6 py-4 font-bold text-primary-foreground shadow-xl shadow-primary/20 transition hover:-translate-y-0.5 hover:opacity-90">أنشئ حسابك الآن <ArrowLeft size={18} /></Link>
             <Link href="/login" className="inline-flex items-center justify-center rounded-2xl border border-border bg-card px-6 py-4 font-bold transition hover:bg-muted">لدي حساب بالفعل</Link>
@@ -65,7 +65,7 @@ export default async function Home() {
           {[{icon:BookOpen,title:'محتوى منظّم',text:'انتقل بين الدورات والوحدات والدروس بسهولة.'},{icon:CheckCircle2,title:'متابعة مستمرة',text:'ارجع إلى نشاطك وتابع تعلّمك من لوحة واحدة.'},{icon:Sparkles,title:'تجربة بسيطة',text:'واجهة عربية واضحة تركز على ما تحتاجه.'}].map((item) => <div key={item.title} className="flex gap-4"><span className="grid size-12 shrink-0 place-items-center rounded-2xl border border-border bg-card text-primary shadow-sm"><item.icon size={22} /></span><div><h3 className="font-extrabold">{item.title}</h3><p className="mt-1 text-sm leading-6 text-muted-foreground">{item.text}</p></div></div>)}
         </div>
       </section>
-      <footer className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-7 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8"><span>© {new Date().getFullYear()} EduPlatform</span><span>رحلتك التعليمية تبدأ بخطوة</span></footer>
+      <footer className="mx-auto flex max-w-7xl flex-col gap-2 px-5 py-7 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-8"><span>© {new Date().getFullYear()} منصة سهم</span><span>رحلتك التعليمية تبدأ بخطوة</span></footer>
     </main>
   );
 }
