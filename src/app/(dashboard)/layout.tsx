@@ -24,12 +24,21 @@ export default async function DashboardLayout({
     .single();
 
   const isOwner = user.id === PLATFORM_OWNER_ID;
+  let isStaff = isOwner;
+  if (!isOwner) {
+    const { data: moderator } = await supabase
+      .from('platform_moderators')
+      .select('user_id')
+      .eq('user_id', user.id)
+      .maybeSingle();
+    isStaff = Boolean(moderator);
+  }
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar isOwner={isOwner} />
+      <Sidebar isOwner={isStaff} />
       <div className="flex-1 flex flex-col">
-        <Header profile={profile} isOwner={isOwner} />
+        <Header profile={profile} isOwner={isStaff} />
         <main className="min-w-0 flex-1 overflow-auto p-4 sm:p-6">{children}</main>
       </div>
     </div>
