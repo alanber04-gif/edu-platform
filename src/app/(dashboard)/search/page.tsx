@@ -8,19 +8,35 @@ export default function SearchPage() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
+  const [error, setError] = useState('');
   const supabase = createClient();
 
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     if (!query.trim()) return;
     setLoading(true);
-    const { data } = await supabase
-      .from('courses')
-      .select('*')
-      .eq('is_published', true)
-      .ilike('title', `%${query}%`);
-    setResults(data || []);
-    setLoading(false);
+    setError('');
+    setSearched(true);
+    try {
+      const { data, error: searchError } = await supabase
+        .from('courses')
+        .select('id, title, description, category, level')
+        .eq('is_published', true)
+        .ilike('title', `%${query.trim()}%`)
+        .order('created_at', { ascending: false });
+      if (searchError) {
+        setError('تعذر إكمال البحث. تحقق من الاتصال وحاول مجددًا.');
+        setResults([]);
+      } else {
+        setResults(data || []);
+      }
+    } catch {
+      setError('حدث خطأ أثناء البحث. حاول مرة أخرى.');
+      setResults([]);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -42,6 +58,7 @@ export default function SearchPage() {
         </button>
       </form>
 
+      {error && <p role="alert" className="rounded-xl border border-destructive/30 p-4 text-sm text-destructive">{error}</p>}
       <div className="space-y-3">
         {results.map((course) => (
           <Link
@@ -53,9 +70,10 @@ export default function SearchPage() {
             <p className="text-sm text-muted-foreground">{course.description}</p>
           </Link>
         ))}
-        {results.length === 0 && query && !loading && (
-          <p className="text-muted-foreground">لا توجد نتائج</p>
+        {results.length === 0 && searched && !loading && !error && (
+          <p className="rounded-xl border border-dashed p-6 text-center text-muted-foreground">لا توجد دورات تطابق بحثك. جرّب كلمات أخرى.</p>
         )}
+        {!searched && <p className="text-sm text-muted-foreground">اكتب اسم الدورة واضغط «بحث» لعرض النتائج من المنصة.</p>}
       </div>
     </div>
   );
