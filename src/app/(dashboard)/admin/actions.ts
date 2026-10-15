@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { requireOwner, requirePlatformStaff } from '@/lib/owner';
 
 export async function createCourse(formData: FormData) {
-  const { supabase, user } = await requireOwner();
+  const { supabase, user } = await requirePlatformStaff();
   const title = String(formData.get('title') || '').trim();
   const description = String(formData.get('description') || '').trim();
   const category = String(formData.get('category') || '').trim();
@@ -33,7 +33,7 @@ export async function createCourse(formData: FormData) {
 }
 
 export async function toggleCoursePublished(formData: FormData) {
-  const { supabase } = await requireOwner();
+  const { supabase } = await requirePlatformStaff();
   const id = String(formData.get('id') || '');
   const published = formData.get('published') === 'true';
   if (!id) redirect('/admin?error=course');
@@ -48,7 +48,7 @@ export async function toggleCoursePublished(formData: FormData) {
 }
 
 export async function deleteCourse(formData: FormData) {
-  const { supabase } = await requireOwner();
+  const { supabase } = await requirePlatformStaff();
   const id = String(formData.get('id') || '');
   if (!id) redirect('/admin?error=course');
 
