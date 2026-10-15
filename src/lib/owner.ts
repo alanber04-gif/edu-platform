@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 
-const PLATFORM_OWNER_ID = 'd54740aa-f0fe-42bd-b2e2-4d2393cc8015';
+const PLATFORM_OWNER_ID = '221467c5-d827-4058-88e7-46fe4966815a';
 
-// The owner ID is fixed server-side; OWNER_USER_ID may still be configured for the UI.
+// Keep the primary owner identity enforced on the server.
 export async function requireOwner() {
   const supabase = await createClient();
   const { data: { user }, error } = await supabase.auth.getUser();
