@@ -1,13 +1,13 @@
-import { requireOwner } from '@/lib/owner';
+import { requirePlatformStaff } from '@/lib/owner';
 import { createCourse, deleteCourse, toggleCoursePublished, createModule, createLesson, updateLessonVideo, grantModerator, revokeModerator } from './actions';
 import { BookOpen, PlusCircle, ShieldCheck } from 'lucide-react';
 
 type AdminPageProps = {
-  searchParams: Promise<{ error?: string; created?: string; updated?: string; deleted?: string }>;
+  searchParams: Promise<{ error?: string; created?: string; updated?: string; deleted?: string; moduleCreated?: string; lessonCreated?: string; videoUpdated?: string; moderatorAdded?: string; moderatorRemoved?: string }>;
 };
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
-  const { supabase, user } = await requireOwner();
+  const { supabase, user, isOwner } = await requirePlatformStaff();
   const params = await searchParams;
   const { data: courses, error: coursesError } = await supabase
     .from('courses')
@@ -33,7 +33,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       <header className="rounded-3xl border bg-gradient-to-l from-primary/15 via-card to-card p-6 sm:p-8">
         <div className="flex items-start gap-4">
           <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground"><ShieldCheck size={27} /></span>
-          <div><p className="text-sm font-bold text-primary">مساحة المالك</p><h1 className="mt-1 text-2xl font-black sm:text-3xl">إدارة منصة سهم</h1><p className="mt-2 text-sm leading-7 text-muted-foreground">إدارة الدورات والتحكم في نشرها. الحساب الحالي: {user.email}</p></div>
+          <div><p className="text-sm font-bold text-primary">مساحة المالك</p><h1 className="mt-1 text-2xl font-black sm:text-3xl">إدارة منصة سهم</h1><p className="mt-2 text-sm leading-7 text-muted-foreground">{isOwner ? 'إدارة الدورات والصلاحيات ومحتوى الدروس.' : 'إدارة محتوى الدروس والفيديوهات.'} الحساب الحالي: {user.email}</p></div>
         </div>
       </header>
 
@@ -43,7 +43,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
       {params.deleted && <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm">تم حذف الدورة.</p>}
       {(params.moduleCreated || params.lessonCreated || params.videoUpdated || params.moderatorAdded || params.moderatorRemoved) && <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4 text-sm">تم حفظ التغيير بنجاح.</p>}
 
-      <section className="rounded-2xl border bg-card p-5 sm:p-7">
+      {isOwner && <section className="rounded-2xl border bg-card p-5 sm:p-7">
         <div className="mb-6 flex items-center gap-3"><PlusCircle className="text-primary" size={22} /><div><h2 className="text-xl font-extrabold">إضافة دورة جديدة</h2><p className="mt-1 text-sm text-muted-foreground">أدخل بيانات الدورة ثم انشرها أو اتركها مسودة.</p></div></div>
         <form action={createCourse} className="grid gap-5 md:grid-cols-2">
           <label className="space-y-2 text-sm font-semibold">اسم الدورة *
@@ -127,7 +127,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
         </div>
       </section>
 
-      <section className="space-y-4">
+      {isOwner && <section className="space-y-4">
         <div className="flex items-center gap-3"><BookOpen className="text-primary" size={22} /><h2 className="text-xl font-extrabold">الدورات الحالية ({courses?.length ?? 0})</h2></div>
         {coursesError ? <p className="rounded-xl border p-5 text-sm text-muted-foreground">تعذر تحميل الدورات. تحقق من إعداد قاعدة البيانات وصلاحياتها.</p> : courses && courses.length ? (
           <div className="space-y-3">{courses.map((course) => (
@@ -140,7 +140,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
             </article>
           ))}</div>
         ) : <div className="rounded-2xl border border-dashed p-10 text-center text-sm text-muted-foreground">لا توجد دورات في قاعدة البيانات بعد. أضف أول دورة من النموذج أعلاه.</div>}
-      </section>
+      </section>}
     </div>
   );
 }
