@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import Sidebar from '@/components/layout/sidebar';
 import Header from '@/components/layout/header';
 
-const PLATFORM_OWNER_ID = 'd54740aa-f0fe-42bd-b2e2-4d2393cc8015';
+const PLATFORM_OWNER_ID = '221467c5-d827-4058-88e7-46fe4966815a';
 
 export default async function DashboardLayout({
   children,
