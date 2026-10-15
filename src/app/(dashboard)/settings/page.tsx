@@ -7,6 +7,8 @@ import { useTheme } from 'next-themes';
 export default function SettingsPage() {
   const [profile, setProfile] = useState<any>(null);
   const [fullName, setFullName] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [notice, setNotice] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const { theme, setTheme } = useTheme();
   const supabase = createClient();
 
@@ -27,9 +29,27 @@ export default function SettingsPage() {
   }, []);
 
   async function updateProfile() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-    await supabase.from('profiles').update({ full_name: fullName }).eq('id', user.id);
+    if (saving) return;
+    setSaving(true);
+    setNotice(null);
+    try {
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      if (authError || !user) {
+        setNotice({ type: 'error', text: 'انتهت الجلسة. سجّل الدخول مجددًا.' });
+        return;
+      }
+      const { error } = await supabase.from('profiles').update({ full_name: fullName.trim() }).eq('id', user.id);
+      if (error) {
+        setNotice({ type: 'error', text: 'تعذر حفظ التغييرات. تحقق من اتصال قاعدة البيانات وصلاحيات الملف الشخصي.' });
+        return;
+      }
+      setProfile((current: any) => current ? { ...current, full_name: fullName.trim() } : current);
+      setNotice({ type: 'success', text: 'تم حفظ التغييرات بنجاح.' });
+    } catch {
+      setNotice({ type: 'error', text: 'حدث خطأ أثناء الحفظ. حاول مرة أخرى.' });
+    } finally {
+      setSaving(false);
+    }
   }
 
   return (
@@ -46,11 +66,14 @@ export default function SettingsPage() {
             className="w-full px-3 py-2 border rounded-md bg-background"
           />
         </div>
+        {notice && <p role="status" className={notice.type === 'success' ? 'text-sm text-emerald-600' : 'text-sm text-destructive'}>{notice.text}</p>}
         <button
+          type="button"
           onClick={updateProfile}
-          className="px-4 py-2 bg-primary text-primary-foreground rounded-md"
+          disabled={saving}
+          className="rounded-xl bg-primary px-5 py-3 font-semibold text-primary-foreground transition hover:opacity-90 disabled:cursor-wait disabled:opacity-50"
         >
-          حفظ التغييرات
+          {saving ? 'جارٍ الحفظ...' : 'حفظ التغييرات'}
         </button>
       </div>
 
