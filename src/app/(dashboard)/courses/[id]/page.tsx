@@ -3,7 +3,8 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import CourseComments from '@/components/course-comments';
 
-export default async function CoursePage({ params }: { params: { id: string } }) {
+export default async function CoursePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = await createClient();
   const { data: course } = await supabase
     .from('courses')
@@ -14,7 +15,7 @@ export default async function CoursePage({ params }: { params: { id: string } })
         lessons (*)
       )
     `)
-    .eq('id', params.id)
+    .eq('id', id)
     .single();
 
   if (!course) notFound();
