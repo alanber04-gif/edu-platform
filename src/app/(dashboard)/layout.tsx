@@ -23,7 +23,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen">
-      <Sidebar />
+      <Sidebar isOwner={Boolean(process.env.OWNER_USER_ID && user.id === process.env.OWNER_USER_ID)} />
       <div className="flex-1 flex flex-col">
         <Header profile={profile} />
         <main className="flex-1 p-6 overflow-auto">{children}</main>
